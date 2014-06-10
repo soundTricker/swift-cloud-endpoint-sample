@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  io.github.soundtricker.swift-sample
 //
-//  Created by 富永啓介 on H26/06/09.
-//  Copyright (c) 平成26年 大橋啓介. All rights reserved.
+//  Created by soundTricker on .
+//  Copyright (c) 2014 Keisuke Oohashi. All rights reserved.
 //
 
 import UIKit

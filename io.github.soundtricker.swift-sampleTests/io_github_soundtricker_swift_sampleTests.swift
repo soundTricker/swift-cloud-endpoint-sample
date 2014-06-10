@@ -1,11 +1,7 @@
 //
-//  io_github_soundtricker_swift_sampleTests.swift
-//  io.github.soundtricker.swift-sampleTests
+//  Created by soundTricker on .
+//  Copyright (c) 2014 Keisuke Oohashi. All rights reserved.
 //
-//  Created by 富永啓介 on H26/06/09.
-//  Copyright (c) 平成26年 大橋啓介. All rights reserved.
-//
-
 import XCTest
 
 class io_github_soundtricker_swift_sampleTests: XCTestCase {
