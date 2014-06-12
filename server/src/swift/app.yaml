@@ -1,0 +1,11 @@
+application: swift-cloud-endpoint-sample
+version: 1
+runtime: go
+api_version: go1
+
+handlers:
+- url: /_ah/spi/.*
+  script: _go_app
+
+- url: /.*
+  script: _go_app
