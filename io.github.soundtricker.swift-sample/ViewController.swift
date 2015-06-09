@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 
     let service : GTLServiceSwiftsampleapi
 
-    init(coder aDecoder: NSCoder!)  {
+    required init(coder aDecoder: NSCoder)  {
         service = GTLServiceSwiftsampleapi()
 
         service.retryEnabled = true
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         super.init(coder : aDecoder)
     }
 
-    @IBOutlet var message : UITextField
+    @IBOutlet var message : UITextField?
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -44,9 +44,9 @@ class ViewController: UIViewController {
         }
 
         let param = GTLSwiftsampleapiPostReq()
-        param.message = message.text
+        param.message = message!.text
 
-        let query : GTLQuerySwiftsampleapi = GTLQuerySwiftsampleapi.queryForMessagePostWithObject(param) as GTLQuerySwiftsampleapi
+        let query : GTLQuerySwiftsampleapi = GTLQuerySwiftsampleapi.queryForMessagePostWithObject(param) as! GTLQuerySwiftsampleapi
 
         self.service.executeQuery(query, completionHandler: { (ticket : GTLServiceTicket!, object : AnyObject!, error : NSError!) -> Void in
 
@@ -55,8 +55,8 @@ class ViewController: UIViewController {
                 NSLog("\(error)")
                 return
             }
-            let res  = object as GTLSwiftsampleapiPostRes
-            self.message.text = "\(res.message) \(res.identifier) \(res.registeredAt) \(res.email)"
+            let res  = object as! GTLSwiftsampleapiPostRes
+            self.message!.text = "\(res.message) \(res.identifier) \(res.registeredAt) \(res.email)"
             })
     }
 
@@ -68,15 +68,15 @@ class ViewController: UIViewController {
     @IBAction func authorize(sender : AnyObject) {
         let viewController = GTMOAuth2ViewControllerTouch(scope : "https://www.googleapis.com/auth/userinfo.email" , clientID: CLIENT_ID, clientSecret:CLIENT_SECRET, keychainItemName : KEY_CHAIN_ITEM_NAME, delegate : self, finishedSelector : "viewController:finishedWithAuth:error:")
 
-        self.presentModalViewController(viewController,  animated: true)
+        self.presentViewController(viewController, animated: true, completion: nil)
     }
 
     @objc(viewController:finishedWithAuth:error:)
-    func finishedWithAuth(viewController :GTMOAuth2ViewControllerTouch , finishedWithAuth auth:GTMOAuth2Authentication,error:NSError){
-        self.dismissModalViewControllerAnimated(true)
+    func finishedWithAuth(viewController: GTMOAuth2ViewControllerTouch , finishedWithAuth auth: GTMOAuth2Authentication, error: NSError?){
+        self.dismissViewControllerAnimated(true, completion: nil)
 
-        if error != nil {
-
+        if let theError = error {
+            //Error handling goes here
         } else {
             self.service.authorizer = auth
             auth.authorizationTokenKey = "id_token"
@@ -87,7 +87,7 @@ class ViewController: UIViewController {
 
 
     @IBAction func greeting(sender : AnyObject) {
-        let query : GTLQuerySwiftsampleapi = GTLQuerySwiftsampleapi.queryForMessageGet() as GTLQuerySwiftsampleapi
+        let query : GTLQuerySwiftsampleapi = GTLQuerySwiftsampleapi.queryForMessageGet() as! GTLQuerySwiftsampleapi
 
         self.service.executeQuery(query, completionHandler: { (ticket : GTLServiceTicket!, object : AnyObject!, error : NSError!) -> Void in
 
@@ -97,7 +97,7 @@ class ViewController: UIViewController {
                 return
             }
 
-            self.message.text = (object as GTLSwiftsampleapiGetRes).message
+            self.message!.text = (object as! GTLSwiftsampleapiGetRes).message
             
         })
     }
